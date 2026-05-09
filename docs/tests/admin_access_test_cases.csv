@@ -26,19 +26,19 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 3. Verify no user is created for that email","Normal public self-registration cannot create a user",Human,Phase-blocking,Confirmed by human after Step 3,Pass,2026-05-09,d494d72,Kawahara,User confirmed Step 3 unresolved findings
 8,Critical,Yes,Unauthenticated user is rejected from admin proposal list reads,"1. Run npm test
 2. Verify admin proposal read test for unauthenticated list access
-3. Confirm the proposal DAL is not called","Unauthenticated access does not read or return proposal data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 5 admin read authorization boundary test
+3. Confirm the proposal DAL is not called","Unauthenticated access does not read or return proposal data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 admin read authorization boundary test
 9,Critical,Yes,Unauthorized user is rejected from admin proposal detail reads,"1. Run npm test
 2. Verify admin proposal read test for unauthorized detail access
-3. Confirm the proposal DAL is not called","Non-admin or disabled users cannot read proposal detail data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 5 admin read authorization boundary test
+3. Confirm the proposal DAL is not called","Non-admin or disabled users cannot read proposal detail data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 admin read authorization boundary test
 10,Critical,Yes,Enabled admin can read proposal list DTOs,"1. Run npm test
 2. Verify admin proposal read test for allowed list access
-3. Confirm list DTOs exclude proposal body and submitter contact","Enabled admin users can read proposal list items with approved list fields only",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 5 list read test
+3. Confirm list DTOs exclude proposal body and submitter contact","Enabled admin users can read proposal list items with approved list fields only",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 list read test
 11,Critical,Yes,Enabled admin can read proposal detail and status history,"1. Run npm test
 2. Verify admin proposal read test for allowed detail access
-3. Confirm detail DTO includes proposal body, optional submitter contact, and status history","Enabled admin users can read approved detail fields and status history",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 5 detail read test
+3. Confirm detail DTO includes proposal body, optional submitter contact, and status history","Enabled admin users can read approved detail fields and status history",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 detail read test
 12,High,Yes,Nonexistent admin proposal detail returns safe not-found data,"1. Run npm test
 2. Verify admin proposal read test for missing detail
-3. Confirm null is returned without exposing database details","Missing proposal detail is handled safely without internal details",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 5 missing detail test
+3. Confirm null is returned without exposing database details","Missing proposal detail is handled safely without internal details",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 missing detail test
 13,Critical,No,Admin proposal list and detail manual verification,"1. Login as an enabled admin
 2. Open /admin/proposals
 3. Open one proposal detail from the list
