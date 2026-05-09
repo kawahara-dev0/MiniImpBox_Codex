@@ -20,15 +20,16 @@ export type ProposalDal = {
     offset?: number;
   }): Promise<AdminProposalListItemDto[]>;
   getAdminProposalDetail(id: string): Promise<AdminProposalDetailDto | null>;
-  changeProposalStatus(input: ChangeProposalStatusInput): Promise<
-    | { ok: true; proposal: AdminProposalDetailDto }
-    | {
-        ok: false;
-        reason: "not_found" | "conflict";
-        latest: AdminProposalDetailDto | null;
-      }
-  >;
+  changeProposalStatus(input: ChangeProposalStatusInput): Promise<ChangeProposalStatusResult>;
 };
+
+export type ChangeProposalStatusResult =
+  | { ok: true; proposal: AdminProposalDetailDto }
+  | {
+      ok: false;
+      reason: "not_found" | "conflict";
+      latest: AdminProposalDetailDto | null;
+    };
 
 export type CreateProposalInput = {
   title: string;
@@ -184,65 +185,67 @@ export function createProposalDal(client: PrismaClient = defaultPrisma): Proposa
     async changeProposalStatus(input) {
       assertValidStatusChangeInput(input);
 
-      return client.$transaction(async (tx) => {
-        const current = await tx.proposal.findUnique({
-          where: { id: input.proposalId },
-          select: {
-            id: true,
-            status: true,
-            version: true,
-          },
-        });
-
-        if (!current) {
-          return {
-            ok: false,
-            reason: "not_found",
-            latest: null,
-          };
-        }
-
-        const updateResult = await tx.proposal.updateMany({
-          where: {
-            id: input.proposalId,
-            version: input.expectedVersion,
-          },
-          data: {
-            status: input.nextStatus,
-            version: {
-              increment: 1,
+      return client.$transaction(
+        async (tx: Prisma.TransactionClient): Promise<ChangeProposalStatusResult> => {
+          const current = await tx.proposal.findUnique({
+            where: { id: input.proposalId },
+            select: {
+              id: true,
+              status: true,
+              version: true,
             },
-          },
-        });
+          });
 
-        if (updateResult.count === 0) {
+          if (!current) {
+            return {
+              ok: false,
+              reason: "not_found",
+              latest: null,
+            };
+          }
+
+          const updateResult = await tx.proposal.updateMany({
+            where: {
+              id: input.proposalId,
+              version: input.expectedVersion,
+            },
+            data: {
+              status: input.nextStatus,
+              version: {
+                increment: 1,
+              },
+            },
+          });
+
+          if (updateResult.count === 0) {
+            return {
+              ok: false,
+              reason: "conflict",
+              latest: await getAdminProposalDetailWithClient(tx, input.proposalId),
+            };
+          }
+
+          await tx.statusChangeHistory.create({
+            data: {
+              proposalId: input.proposalId,
+              oldStatus: current.status,
+              newStatus: input.nextStatus,
+              changedBy: input.changedBy,
+              result: STATUS_CHANGE_RESULT_SUCCESS,
+            },
+          });
+
+          const updated = await getAdminProposalDetailWithClient(tx, input.proposalId);
+          if (!updated) {
+            throw new Error("Updated proposal was not found.");
+          }
+
           return {
-            ok: false,
-            reason: "conflict",
-            latest: await getAdminProposalDetailWithClient(tx, input.proposalId),
+            ok: true,
+            proposal: updated,
           };
-        }
-
-        await tx.statusChangeHistory.create({
-          data: {
-            proposalId: input.proposalId,
-            oldStatus: current.status,
-            newStatus: input.nextStatus,
-            changedBy: input.changedBy,
-            result: STATUS_CHANGE_RESULT_SUCCESS,
-          },
-        });
-
-        const updated = await getAdminProposalDetailWithClient(tx, input.proposalId);
-        if (!updated) {
-          throw new Error("Updated proposal was not found.");
-        }
-
-        return {
-          ok: true,
-          proposal: updated,
-        };
-      });
+        },
+      );
     },
   };
 }

@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: file:../data/sqlite/app.db
+      BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: ci-local-secret-for-build-and-validation-only
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npm run prisma:generate
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Validate Prisma schema
+        run: npm run prisma:validate
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate Docker Compose config
+        run: docker compose config --quiet
+
+      - name: Build Docker builder image
+        run: docker build --target builder -t mini-imp-box-ci-builder .
+
+      - name: Validate Prisma schema in Docker builder image
+        run: docker run --rm mini-imp-box-ci-builder npm run prisma:validate
