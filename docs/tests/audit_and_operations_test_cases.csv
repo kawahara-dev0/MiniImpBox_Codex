@@ -3,24 +3,32 @@ Tester Agent Used,No,,,,,,,,,,,,,
 Final Approval,Pending,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
-1,Critical,Yes,Login audit schema stores approved safe fields only,"1. Review prisma/schema.prisma
+1,Critical,Yes,Login audit schema stores approved safe fields only,"AI review:
+1. Review prisma/schema.prisma
 2. Verify AdminLoginAuditLog fields
 3. Confirm password, session token, proposal body, and submitter information fields are absent","Login audit table stores event type, admin identifier, timestamp, result, reason category, and request ID only",AI,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex,Step 2 schema review
-2,Critical,Yes,Admin login audit write boundary excludes secrets,"1. Review src/lib/dal/audit-log.ts
+2,Critical,Yes,Admin login audit write boundary excludes secrets,"AI review:
+1. Review src/lib/dal/audit-log.ts
 2. Verify write input has no password, session token, proposal body, or submitter fields","Audit write boundary does not accept secret or proposal content fields",AI,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex,Actual Better Auth integration is planned for Step 7
-3,Critical,Yes,Successful admin login creates safe audit log,"1. Login as an administrator
+3,Critical,Yes,Successful admin login creates safe audit log,"Automated integration test:
+1. Login as an administrator in the test client
 2. Query or inspect the login audit record
 3. Verify no password, session token, proposal body, or submitter information is stored","A success audit record is created with safe fields only",Auto,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 7
-4,Critical,Yes,Failed admin login creates safe audit log,"1. Attempt admin login with invalid credentials
+4,Critical,Yes,Failed admin login creates safe audit log,"Automated integration test:
+1. Attempt admin login with invalid credentials in the test client
 2. Query or inspect the login audit record
 3. Verify safe failure reason category and request ID are present","A failure audit record is created without secrets or sensitive proposal data",Auto,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 7
-5,Critical,No,Docker persistent database and backup paths are preserved,"1. Review docker-compose.yml
-2. Confirm ./data/sqlite is mounted to /data/sqlite
-3. Confirm ./data/backups is mounted to /data/backups","Database and backups use explicit persistent host bind mounts",Human,Phase-blocking,Confirmed by human after Step 1,Pass,2026-05-09,d494d72,Kawahara,User confirmed Step 1 phase-blocking storage verification
-6,Critical,Yes,Initial administrator creation script does not print secrets,"1. Run npm run admin:account -- create with local ADMIN_EMAIL, ADMIN_NAME, and ADMIN_PASSWORD
+5,Critical,No,Docker persistent database and backup paths are preserved,"CLI check:
+1. Run docker compose config
+2. Inspect the resolved compose configuration
+3. Confirm ./data/sqlite is mounted to /data/sqlite
+4. Confirm ./data/backups is mounted to /data/backups","Database and backups use explicit persistent host bind mounts",Human,Phase-blocking,Confirmed by human after Step 1,Pass,2026-05-09,d494d72,Kawahara,User confirmed Step 1 phase-blocking storage verification
+6,Critical,Yes,Initial administrator creation script does not print secrets,"CLI check:
+1. Run npm run admin:account -- create with local ADMIN_EMAIL, ADMIN_NAME, and ADMIN_PASSWORD
 2. Confirm stdout does not include password, password hash, session token, or secret
 3. Confirm the account has role admin and enabled true","The administrative script creates or updates an enabled admin account without printing secrets",Human,Phase-blocking,Confirmed by human after Step 3,Pass,2026-05-09,d494d72,Kawahara,User confirmed Step 3 unresolved findings
-7,Critical,Yes,Administrator disable procedure uses the approved enabled flag and revokes sessions,"1. Run npm run admin:account -- disable with local ADMIN_EMAIL
+7,Critical,Yes,Administrator disable procedure uses the approved enabled flag and revokes sessions,"CLI check:
+1. Run npm run admin:account -- disable with local ADMIN_EMAIL
 2. Confirm the user enabled flag becomes false
 3. Confirm active sessions for the user are deleted
 4. Attempt the admin boundary with that account","Disabled administrators cannot pass the admin boundary and existing sessions are revoked",Human,Phase-blocking,Confirmed by human after Step 3,Pass,2026-05-09,d494d72,Kawahara,User confirmed Step 3 unresolved findings

@@ -3,49 +3,64 @@ Tester Agent Used,No,,,,,,,,,,,,,
 Final Approval,Pending,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
-1,Critical,Yes,Better Auth user schema includes admin authorization fields,"1. Review prisma/schema.prisma
+1,Critical,Yes,Better Auth user schema includes admin authorization fields,"AI review:
+1. Review prisma/schema.prisma
 2. Verify the Better Auth user table has role and enabled fields
 3. Verify no public self-registration UI is introduced","User records can support a single admin role check and account disabling; no self-registration UI exists",AI,Phase-blocking,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex,Step 3 must wire server-side auth behavior
-2,Critical,Yes,Admin list DTO excludes proposal body and submitter contact,"1. Run npm test
+2,Critical,Yes,Admin list DTO excludes proposal body and submitter contact,"Automated integration test:
+1. Run npm test
 2. Verify admin list DAL test
 3. Confirm returned list item has no body or submitterContact field","Admin list DTO includes only approved list fields and excludes proposal body and submitter contact",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 2 DTO boundary test
-3,Critical,Yes,Unauthenticated user is rejected from admin boundary,"1. Run npm test
+3,Critical,Yes,Unauthenticated user is rejected from admin boundary,"Automated integration test:
+1. Run npm test
 2. Verify admin auth boundary route test for unauthenticated access
 3. Confirm the response status is 401 and no administrator data is returned","Unauthenticated access does not return administrator data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 3 admin boundary route test
-4,Critical,Yes,Authenticated user without admin role is rejected where feasible,"1. Run npm test
+4,Critical,Yes,Authenticated user without admin role is rejected where feasible,"Automated unit test:
+1. Run npm test
 2. Verify admin authorization helper and boundary route tests
 3. Confirm non-admin or disabled users are rejected safely","A missing or non-admin role cannot access administrator data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 3 auth helper and route tests
-5,Critical,Yes,Admin user can access proposal list and detail,"1. Login as an administrator
-2. Open proposal list
-3. Open proposal detail","Administrator can view approved administrator fields only",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Steps 3 and 5
-6,Critical,Yes,Enabled admin user is accepted by the server-side admin boundary,"1. Run npm test
+5,Critical,Yes,Admin user can access proposal list and detail,"Manual UI:
+1. In a browser, login as an administrator
+2. In the same browser session, open the proposal list page
+3. Open one proposal detail page from the list","Administrator can view approved administrator fields only",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Steps 3 and 5
+6,Critical,Yes,Enabled admin user is accepted by the server-side admin boundary,"Automated integration test:
+1. Run npm test
 2. Verify admin authorization helper and boundary route tests
 3. Confirm the route returns only user id, email, and role for an enabled admin","Enabled admin users can pass the admin boundary without session secrets being returned",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 3 authorization foundation test
-7,Critical,Yes,Public self-registration is unavailable,"1. POST to /api/auth/sign-up/email with a non-admin email and password
+7,Critical,Yes,Public self-registration is unavailable,"Manual API:
+1. Send POST /api/auth/sign-up/email with a non-admin email and password
 2. Verify the request fails
 3. Verify no user is created for that email","Normal public self-registration cannot create a user",Human,Phase-blocking,Confirmed by human after Step 3,Pass,2026-05-09,d494d72,Kawahara,User confirmed Step 3 unresolved findings
-8,Critical,Yes,Unauthenticated user is rejected from admin proposal list reads,"1. Run npm test
+8,Critical,Yes,Unauthenticated user is rejected from admin proposal list reads,"Automated integration test:
+1. Run npm test
 2. Verify admin proposal read test for unauthenticated list access
 3. Confirm the proposal DAL is not called","Unauthenticated access does not read or return proposal data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 admin read authorization boundary test
-9,Critical,Yes,Unauthorized user is rejected from admin proposal detail reads,"1. Run npm test
+9,Critical,Yes,Unauthorized user is rejected from admin proposal detail reads,"Automated integration test:
+1. Run npm test
 2. Verify admin proposal read test for unauthorized detail access
 3. Confirm the proposal DAL is not called","Non-admin or disabled users cannot read proposal detail data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 admin read authorization boundary test
-10,Critical,Yes,Enabled admin can read proposal list DTOs,"1. Run npm test
+10,Critical,Yes,Enabled admin can read proposal list DTOs,"Automated integration test:
+1. Run npm test
 2. Verify admin proposal read test for allowed list access
 3. Confirm list DTOs exclude proposal body and submitter contact","Enabled admin users can read proposal list items with approved list fields only",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 list read test
-11,Critical,Yes,Enabled admin can read proposal detail and status history,"1. Run npm test
+11,Critical,Yes,Enabled admin can read proposal detail and status history,"Automated integration test:
+1. Run npm test
 2. Verify admin proposal read test for allowed detail access
 3. Confirm detail DTO includes proposal body, optional submitter contact, and status history","Enabled admin users can read approved detail fields and status history",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 detail read test
-12,High,Yes,Nonexistent admin proposal detail returns safe not-found data,"1. Run npm test
+12,High,Yes,Nonexistent admin proposal detail returns safe not-found data,"Automated integration test:
+1. Run npm test
 2. Verify admin proposal read test for missing detail
 3. Confirm null is returned without exposing database details","Missing proposal detail is handled safely without internal details",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,3e532ab,OpenAI Codex / Vitest,Step 5 missing detail test
-13,Critical,No,Admin proposal list and detail manual verification,"1. Login as an enabled admin
-2. Open /admin/proposals
-3. Open one proposal detail from the list
+13,Critical,No,Admin proposal list and detail manual verification,"Manual UI + log inspection:
+1. In a browser, login as an enabled admin
+2. In the browser, open /admin/proposals
+3. In the browser, open one proposal detail page from the list
 4. Confirm optional submitter information appears only on administrator screens
 5. Confirm submitter contact and full proposal body are shown on the administrator detail screen only
-6. Confirm proposal body and submitter information are not written to app logs","Admin read screens are reachable only by an enabled admin and display approved administrator fields",Human,Phase-blocking,Confirmed by human after Step 5,Pass,2026-05-10,ff73730,Kawahara,User confirmed Step 5 phase-blocking gate
-14,Critical,No,Unauthenticated admin proposal routes are rejected manually,"1. Clear browser session or use a private window
-2. Open /admin/proposals
-3. Open /admin/proposals/{id}
+6. Inspect application logs from the same test run
+7. Confirm proposal body and submitter information are not written to app logs","Admin read screens are reachable only by an enabled admin and display approved administrator fields",Human,Phase-blocking,Confirmed by human after Step 5,Pass,2026-05-10,ff73730,Kawahara,User confirmed Step 5 phase-blocking gate
+14,Critical,No,Unauthenticated admin proposal routes are rejected manually,"Manual UI:
+1. Clear browser session or use a private browser window
+2. In the browser, open /admin/proposals
+3. In the browser, open /admin/proposals/{id}
 4. Confirm proposal data, submitter contact, and proposal body are not shown","Unauthenticated users cannot view administrator proposal data",Human,Phase-blocking,Confirmed by human after Step 5,Pass,2026-05-10,ff73730,Kawahara,User confirmed Step 5 phase-blocking gate

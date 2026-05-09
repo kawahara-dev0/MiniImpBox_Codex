@@ -3,35 +3,46 @@ Tester Agent Used,No,,,,,,,,,,,,,
 Final Approval,Pending,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
-1,High,Yes,Proposal validation constants match approved limits,"1. Run npm test
+1,High,Yes,Proposal validation constants match approved limits,"Automated unit test:
+1. Run npm test
 2. Verify validation tests for title, body, submitter_name, and submitter_contact limits","Title max is 100, body max is 2000, submitter_name max is 100, submitter_contact max is 254",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 2 validation constants only; UI flow is not implemented yet
-2,High,Yes,Submitter contact accepts valid email only when provided,"1. Run npm test
+2,High,Yes,Submitter contact accepts valid email only when provided,"Automated unit test:
+1. Run npm test
 2. Verify validation tests for blank, valid email, and invalid email submitter_contact","Blank submitter_contact is allowed; valid email is accepted; invalid email is rejected",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 2 validates core rule before submission UI
-3,High,No,Proposal creation DAL stores new proposals with initial status,"1. Run npm test
+3,High,No,Proposal creation DAL stores new proposals with initial status,"Automated integration test:
+1. Run npm test
 2. Verify proposal DAL create test using a fake Prisma executor with fake test data","A proposal is stored with status new and version 1",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Real migration application remains manual verification for Step 2
-4,High,Yes,Public proposal submission action succeeds without optional submitter data,"1. Run npm test
+4,High,Yes,Public proposal submission action succeeds without optional submitter data,"Automated integration test:
+1. Run npm test
 2. Verify proposal submission action test without optional submitter data
 3. Confirm the DAL receives normalized null submitter fields","Proposal submission creates a new proposal through the DAL and returns a safe success message",Auto,N/A,Same as Expected Result,Pass,2026-05-09,012deac,OpenAI Codex / Vitest,Step 4 server action boundary test
-5,High,Yes,Public proposal submission action accepts optional submitter data,"1. Run npm test
+5,High,Yes,Public proposal submission action accepts optional submitter data,"Automated integration test:
+1. Run npm test
 2. Verify proposal submission action test with submitter name and contact
 3. Confirm the DAL receives normalized optional fields","Optional submitter name and valid email contact are accepted",Auto,N/A,Same as Expected Result,Pass,2026-05-09,012deac,OpenAI Codex / Vitest,Step 4 optional field test
-6,High,Yes,Public proposal submission action returns validation errors safely,"1. Run npm test
+6,High,Yes,Public proposal submission action returns validation errors safely,"Automated integration test:
+1. Run npm test
 2. Verify proposal submission action validation error test
 3. Confirm no proposal is created for invalid input","Invalid title, body, or contact email returns field errors and does not create a proposal",Auto,N/A,Same as Expected Result,Pass,2026-05-09,012deac,OpenAI Codex / Vitest,Step 4 validation error test
-7,High,Yes,Submitted HTML-like body is passed as plain text input,"1. Run npm test
+7,High,Yes,Submitted HTML-like body is passed as plain text input,"Automated integration test:
+1. Run npm test
 2. Verify proposal submission action HTML-like body test
 3. Confirm the text is stored as a string and not rendered as trusted HTML by the submission flow","HTML-like body content is handled as plain text input",Auto,N/A,Same as Expected Result,Pass,2026-05-09,012deac,OpenAI Codex / Vitest,Step 4 safe output regression test
-8,High,No,Public proposal submission succeeds without authentication,"1. Open the public proposal submission form
+8,High,No,Public proposal submission succeeds without authentication,"Manual UI:
+1. In a browser, open the public proposal submission form
 2. Enter title and body
 3. Leave submitter fields blank
 4. Submit the form","Proposal is saved with status new and the submitter sees a safe completion message",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 4
-9,High,No,Public proposal submission accepts optional contact data,"1. Open the public proposal submission form
+9,High,No,Public proposal submission accepts optional contact data,"Manual UI:
+1. In a browser, open the public proposal submission form
 2. Enter title, body, optional name, and a valid contact email
 3. Submit the form
 4. Confirm the submitter sees only a safe completion message","Proposal is saved with status new and optional submitter data is accepted without exposing internal metadata",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 4
-10,High,No,Public submission response hides internal IDs and admin metadata,"1. Submit a valid public proposal
+10,High,No,Public submission response hides internal IDs and admin metadata,"Manual UI:
+1. In a browser, submit a valid public proposal
 2. Inspect the user-facing success response
 3. Confirm proposal ID, status internals, version, admin-only metadata, and database details are not shown","The submitter-facing response does not show internal IDs, admin metadata, or database details",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 4
-11,High,No,Submitted HTML-like body is safely displayed,"1. Submit a proposal body containing <script>alert(1)</script>
+11,High,No,Submitted HTML-like body is safely displayed,"Manual UI:
+1. In a browser, submit a proposal body containing <script>alert(1)</script>
 2. View any resulting user-facing output
 3. Verify the text is escaped and not executed","HTML-like content is treated as text and not executed",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 4
