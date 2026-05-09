@@ -11,16 +11,16 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 2. Verify proposal DAL create test using a fake Prisma executor with fake test data","A proposal is stored with status new and version 1",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Real migration application remains manual verification for Step 2
 4,High,Yes,Public proposal submission action succeeds without optional submitter data,"1. Run npm test
 2. Verify proposal submission action test without optional submitter data
-3. Confirm the DAL receives normalized null submitter fields","Proposal submission creates a new proposal through the DAL and returns a safe success message",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 4 server action boundary test
+3. Confirm the DAL receives normalized null submitter fields","Proposal submission creates a new proposal through the DAL and returns a safe success message",Auto,N/A,Same as Expected Result,Pass,2026-05-09,012deac,OpenAI Codex / Vitest,Step 4 server action boundary test
 5,High,Yes,Public proposal submission action accepts optional submitter data,"1. Run npm test
 2. Verify proposal submission action test with submitter name and contact
-3. Confirm the DAL receives normalized optional fields","Optional submitter name and valid email contact are accepted",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 4 optional field test
+3. Confirm the DAL receives normalized optional fields","Optional submitter name and valid email contact are accepted",Auto,N/A,Same as Expected Result,Pass,2026-05-09,012deac,OpenAI Codex / Vitest,Step 4 optional field test
 6,High,Yes,Public proposal submission action returns validation errors safely,"1. Run npm test
 2. Verify proposal submission action validation error test
-3. Confirm no proposal is created for invalid input","Invalid title, body, or contact email returns field errors and does not create a proposal",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 4 validation error test
+3. Confirm no proposal is created for invalid input","Invalid title, body, or contact email returns field errors and does not create a proposal",Auto,N/A,Same as Expected Result,Pass,2026-05-09,012deac,OpenAI Codex / Vitest,Step 4 validation error test
 7,High,Yes,Submitted HTML-like body is passed as plain text input,"1. Run npm test
 2. Verify proposal submission action HTML-like body test
-3. Confirm the text is stored as a string and not rendered as trusted HTML by the submission flow","HTML-like body content is handled as plain text input",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 4 safe output regression test
+3. Confirm the text is stored as a string and not rendered as trusted HTML by the submission flow","HTML-like body content is handled as plain text input",Auto,N/A,Same as Expected Result,Pass,2026-05-09,012deac,OpenAI Codex / Vitest,Step 4 safe output regression test
 8,High,No,Public proposal submission succeeds without authentication,"1. Open the public proposal submission form
 2. Enter title and body
 3. Leave submitter fields blank
