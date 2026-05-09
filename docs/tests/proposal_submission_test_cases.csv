@@ -4,11 +4,11 @@ Final Approval,Pending,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
 1,High,Yes,Proposal validation constants match approved limits,"1. Run npm test
-2. Verify validation tests for title, body, submitter_name, and submitter_contact limits","Title max is 100, body max is 2000, submitter_name max is 100, submitter_contact max is 254",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 2 validation constants only; UI flow is not implemented yet
+2. Verify validation tests for title, body, submitter_name, and submitter_contact limits","Title max is 100, body max is 2000, submitter_name max is 100, submitter_contact max is 254",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 2 validation constants only; UI flow is not implemented yet
 2,High,Yes,Submitter contact accepts valid email only when provided,"1. Run npm test
-2. Verify validation tests for blank, valid email, and invalid email submitter_contact","Blank submitter_contact is allowed; valid email is accepted; invalid email is rejected",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 2 validates core rule before submission UI
+2. Verify validation tests for blank, valid email, and invalid email submitter_contact","Blank submitter_contact is allowed; valid email is accepted; invalid email is rejected",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 2 validates core rule before submission UI
 3,High,No,Proposal creation DAL stores new proposals with initial status,"1. Run npm test
-2. Verify proposal DAL create test using a fake Prisma executor with fake test data","A proposal is stored with status new and version 1",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Real migration application remains manual verification for Step 2
+2. Verify proposal DAL create test using a fake Prisma executor with fake test data","A proposal is stored with status new and version 1",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Real migration application remains manual verification for Step 2
 4,High,No,Public proposal submission succeeds without authentication,"1. Open the public proposal submission form
 2. Enter title and body
 3. Leave submitter fields blank
