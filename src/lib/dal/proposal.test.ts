@@ -271,6 +271,23 @@ describe("proposal DAL", () => {
     }
   });
 
+  it("returns safe not-found status change results without creating history", async () => {
+    const dal = createProposalDal(createFakePrismaClient());
+
+    const result = await dal.changeProposalStatus({
+      proposalId: "missing",
+      nextStatus: "done",
+      expectedVersion: 1,
+      changedBy: "admin@example.com",
+    });
+
+    expect(result).toEqual({
+      ok: false,
+      reason: "not_found",
+      latest: null,
+    });
+  });
+
   it("rejects invalid status change boundary input before persistence", async () => {
     const dal = createProposalDal(createFakePrismaClient());
     const created = await dal.createProposal({

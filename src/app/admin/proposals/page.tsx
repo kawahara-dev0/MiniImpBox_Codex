@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { readAdminProposalList } from "@/lib/admin/proposal-read";
 
+type AdminProposalListPageProps = {
+  searchParams?: Promise<{
+    statusResult?: string | string[];
+  }>;
+};
+
 function formatDate(value: Date) {
   return value.toISOString().slice(0, 16).replace("T", " ");
 }
@@ -17,12 +23,22 @@ function AdminAccessDenied() {
   );
 }
 
-export default async function AdminProposalListPage() {
+function getListMessage(statusResult: string | string[] | undefined) {
+  const value = Array.isArray(statusResult) ? statusResult[0] : statusResult;
+  return value === "not-found" ? "The proposal was not found." : null;
+}
+
+export default async function AdminProposalListPage({
+  searchParams,
+}: AdminProposalListPageProps) {
+  const query = searchParams ? await searchParams : {};
   const result = await readAdminProposalList({ limit: 50 });
 
   if (!result.allowed) {
     return <AdminAccessDenied />;
   }
+
+  const message = getListMessage(query.statusResult);
 
   return (
     <main className="page admin-page">
@@ -33,6 +49,7 @@ export default async function AdminProposalListPage() {
       </section>
 
       <section className="form-section" aria-label="Proposal list">
+        {message ? <p className="notice error">{message}</p> : null}
         {result.proposals.length === 0 ? (
           <p>No proposals have been submitted yet.</p>
         ) : (

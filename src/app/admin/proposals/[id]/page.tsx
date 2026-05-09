@@ -1,11 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { readAdminProposalDetail } from "@/lib/admin/proposal-read";
+import { STATUS_CHANGE_CONFLICT_MESSAGE } from "@/lib/admin/proposal-status";
 import type { AdminStatusChangeHistoryDto } from "@/lib/dto/proposal";
+import { PROPOSAL_STATUSES } from "@/lib/domain/proposal";
+import { changeProposalStatusAction } from "./status-actions";
 
 type AdminProposalDetailPageProps = {
   params: Promise<{
     id: string;
+  }>;
+  searchParams?: Promise<{
+    statusResult?: string | string[];
   }>;
 };
 
@@ -58,10 +64,46 @@ function StatusHistory({ histories }: { histories: AdminStatusChangeHistoryDto[]
   );
 }
 
+function getStatusResultMessage(statusResult: string | string[] | undefined) {
+  const value = Array.isArray(statusResult) ? statusResult[0] : statusResult;
+
+  switch (value) {
+    case "changed":
+      return {
+        className: "notice success",
+        text: "Status was updated.",
+      };
+    case "conflict":
+      return {
+        className: "notice error",
+        text: STATUS_CHANGE_CONFLICT_MESSAGE,
+      };
+    case "invalid_status":
+      return {
+        className: "notice error",
+        text: "Select a valid status.",
+      };
+    case "invalid_version":
+      return {
+        className: "notice error",
+        text: "Reload the latest proposal before changing status.",
+      };
+    case "forbidden":
+      return {
+        className: "notice error",
+        text: "Admin access is required to change status.",
+      };
+    default:
+      return null;
+  }
+}
+
 export default async function AdminProposalDetailPage({
   params,
+  searchParams,
 }: AdminProposalDetailPageProps) {
   const { id } = await params;
+  const query = searchParams ? await searchParams : {};
   const result = await readAdminProposalDetail(id);
 
   if (!result.allowed) {
@@ -73,6 +115,7 @@ export default async function AdminProposalDetailPage({
   }
 
   const proposal = result.proposal;
+  const statusMessage = getStatusResultMessage(query.statusResult);
 
   return (
     <main className="page admin-page">
@@ -105,6 +148,32 @@ export default async function AdminProposalDetailPage({
               <dd>{formatDate(proposal.updatedAt)}</dd>
             </div>
           </dl>
+          {statusMessage ? (
+            <p className={statusMessage.className}>{statusMessage.text}</p>
+          ) : null}
+          <form className="status-form" action={changeProposalStatusAction}>
+            <input type="hidden" name="proposalId" value={proposal.id} />
+            <input
+              type="hidden"
+              name="expectedVersion"
+              value={proposal.version}
+            />
+            <label htmlFor="nextStatus">Change status</label>
+            <div className="inline-action">
+              <select
+                id="nextStatus"
+                name="nextStatus"
+                defaultValue={proposal.status}
+              >
+                {PROPOSAL_STATUSES.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+              <button type="submit">Update status</button>
+            </div>
+          </form>
           <p className="proposal-body">{proposal.body}</p>
         </div>
 

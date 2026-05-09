@@ -94,6 +94,7 @@ label {
 }
 
 input,
+select,
 textarea {
   width: 100%;
   border: 1px solid var(--border);
@@ -105,6 +106,23 @@ textarea {
 
 textarea {
   resize: vertical;
+}
+
+.status-form {
+  display: grid;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.inline-action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.inline-action select {
+  max-width: 220px;
 }
 
 button {

@@ -1,5 +1,5 @@
 Environment,development,,,,,,,,,,,,,
-Tester Agent Used,No,,,,,,,,,,,,,
+Tester Agent Used,Yes,,,,,,,,,,,,,
 Final Approval,Pending,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
@@ -19,12 +19,46 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 2. Execute the DAL invalid status change boundary input test
 3. Confirm version less than 1 and blank actor are rejected before persistence","Invalid version and blank actor are rejected before persistence",Auto,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex / Vitest,Step 2 DAL boundary validation
 5,Critical,Yes,Unauthenticated status change is rejected,"Automated integration test:
-1. Send a status change request without authentication in the test client
-2. Verify the request is rejected
-3. Verify proposal status and history remain unchanged","Unauthenticated users cannot change status and no data changes occur",Auto,Phase-blocking,,Pending,Not Run,N/A,,Planned for Step 6 after auth boundary exists
+1. Run npm test
+2. Verify admin proposal status service test for unauthenticated access
+3. Confirm the status change is rejected before the proposal DAL is called","Unauthenticated users cannot change status and no data changes occur",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 admin status authorization boundary test
 6,Critical,Yes,Manual optimistic-lock conflict verification,"Manual UI:
 1. Login as an administrator in two browser sessions
 2. Open the same proposal detail in both sessions
 3. Change status in the first session
 4. Try to change status from the stale second session
-5. Verify the approved conflict message and latest state","The stale request is rejected with the approved safe conflict message and latest state is shown without automatic retry",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 6 and Step 8
+5. Verify the approved conflict message is shown
+6. Verify the screen reflects the latest status and version from the first session
+7. Verify the stale requested status is not applied automatically
+8. Verify status history has no extra success entry for the stale attempt","The stale request is rejected with the approved safe conflict message, latest state is shown, the first admin update remains effective, and no automatic retry or extra success history occurs",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 6 and Step 8
+7,Critical,Yes,Unauthorized status change is rejected,"Automated integration test:
+1. Run npm test
+2. Verify admin proposal status service test for non-admin authorization failure
+3. Confirm the proposal DAL is not called","Non-admin or disabled users cannot change status and no data changes occur",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 admin status authorization boundary test
+8,Critical,Yes,Nonexistent proposal status change returns a safe error,"Automated integration test:
+1. Run npm test
+2. Verify DAL and admin proposal status service tests for a missing proposal
+3. Confirm no database details are returned","Missing proposals return a safe not-found result without internal details",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 missing proposal safe error test
+9,Critical,Yes,Invalid status change is rejected before persistence,"Automated unit test:
+1. Run npm test
+2. Verify admin proposal status service test with an invalid status value
+3. Confirm the proposal DAL is not called","Invalid status values are rejected before persistence",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 status validation test
+10,Critical,Yes,Enabled admin status change uses server-side actor and read version,"Automated integration test:
+1. Run npm test
+2. Verify admin proposal status service success test
+3. Confirm the DAL receives proposal ID, valid next status, parsed expected version, and administrator email","Enabled administrators can request a valid status change using the version read by the detail screen",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 server-side status action boundary test
+11,Critical,Yes,Conflict response uses approved safe message and latest state,"Automated integration test:
+1. Run npm test
+2. Verify admin proposal status service conflict test
+3. Confirm the approved conflict message and latest proposal state are returned","Stale conflicts use the approved safe message and return latest state without automatic retry",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 conflict message test
+12,Critical,Yes,Invalid expected version is rejected before persistence,"Automated unit test:
+1. Run npm test
+2. Verify admin proposal status service test with a tampered expectedVersion value
+3. Confirm the proposal DAL is not called","Tampered or invalid expectedVersion values are rejected before persistence",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 service boundary validation test
+13,Critical,No,Manual successful status change and history verification,"Manual UI:
+1. Login as an enabled administrator in a browser
+2. Open /admin/proposals and select one proposal
+3. Change the proposal status to a different valid status
+4. Verify the success notice is shown
+5. Verify the displayed status and version are updated
+6. Verify Status History contains one success row with the previous status, new status, changed administrator, and changed time","An enabled administrator can change status and the same screen shows the updated status, incremented version, and success history entry",Human,Release-blocking,,Pending,Not Run,N/A,,Step 6 release-blocking manual verification

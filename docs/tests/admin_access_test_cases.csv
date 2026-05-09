@@ -1,5 +1,5 @@
 Environment,development,,,,,,,,,,,,,
-Tester Agent Used,No,,,,,,,,,,,,,
+Tester Agent Used,Yes,,,,,,,,,,,,,
 Final Approval,Pending,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
@@ -64,3 +64,15 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 2. In the browser, open /admin/proposals
 3. In the browser, open /admin/proposals/{id}
 4. Confirm proposal data, submitter contact, and proposal body are not shown","Unauthenticated users cannot view administrator proposal data",Human,Phase-blocking,Confirmed by human after Step 5,Pass,2026-05-10,ff73730,Kawahara,User confirmed Step 5 phase-blocking gate
+15,Critical,Yes,Unauthenticated users cannot change proposal status,"Automated integration test:
+1. Run npm test
+2. Verify admin proposal status service test for unauthenticated status changes
+3. Confirm the proposal DAL is not called","Unauthenticated users cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 status change authorization test
+16,Critical,Yes,Non-admin or disabled users cannot change proposal status,"Automated integration test:
+1. Run npm test
+2. Verify admin proposal status service test for authorization failure
+3. Confirm the proposal DAL is not called","Unauthorized users cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 status change authorization test
+17,Critical,Yes,Disabled admin users cannot change proposal status,"Automated integration test:
+1. Run npm test
+2. Verify admin proposal status service test for disabled admin authorization failure
+3. Confirm the proposal DAL is not called","Disabled administrator accounts cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 disabled admin status change authorization test
