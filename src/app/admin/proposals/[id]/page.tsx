@@ -18,8 +18,8 @@ function AdminAccessDenied() {
     <main className="page">
       <section className="form-section" aria-labelledby="admin-denied-title">
         <p className="eyebrow">Admin</p>
-        <h1 id="admin-denied-title">管理者権限が必要です</h1>
-        <p>管理者としてログインしてから再度アクセスしてください。</p>
+        <h1 id="admin-denied-title">Admin access required</h1>
+        <p>Please sign in as an administrator and try again.</p>
       </section>
     </main>
   );
@@ -27,7 +27,7 @@ function AdminAccessDenied() {
 
 function StatusHistory({ histories }: { histories: AdminStatusChangeHistoryDto[] }) {
   if (histories.length === 0) {
-    return <p>状態変更履歴はまだありません。</p>;
+    return <p>No status history has been recorded yet.</p>;
   }
 
   return (
@@ -35,11 +35,11 @@ function StatusHistory({ histories }: { histories: AdminStatusChangeHistoryDto[]
       <table>
         <thead>
           <tr>
-            <th>変更日時</th>
-            <th>変更前</th>
-            <th>変更後</th>
-            <th>変更者</th>
-            <th>結果</th>
+            <th>Changed</th>
+            <th>Previous status</th>
+            <th>New status</th>
+            <th>Changed by</th>
+            <th>Result</th>
           </tr>
         </thead>
         <tbody>
@@ -80,16 +80,16 @@ export default async function AdminProposalDetailPage({
         <p className="eyebrow">Admin</p>
         <h1 id="admin-proposal-title">{proposal.title}</h1>
         <p>
-          <Link href="/admin/proposals">提案一覧へ戻る</Link>
+          <Link href="/admin/proposals">Back to proposal list</Link>
         </p>
       </section>
 
-      <section className="detail-grid" aria-label="提案詳細">
+      <section className="detail-grid" aria-label="Proposal detail">
         <div className="form-section">
-          <h2>内容</h2>
+          <h2>Details</h2>
           <dl className="metadata-list">
             <div>
-              <dt>状態</dt>
+              <dt>Status</dt>
               <dd>{proposal.status}</dd>
             </div>
             <div>
@@ -97,34 +97,34 @@ export default async function AdminProposalDetailPage({
               <dd>{proposal.version}</dd>
             </div>
             <div>
-              <dt>作成日時</dt>
+              <dt>Created</dt>
               <dd>{formatDate(proposal.createdAt)}</dd>
             </div>
             <div>
-              <dt>更新日時</dt>
+              <dt>Updated</dt>
               <dd>{formatDate(proposal.updatedAt)}</dd>
             </div>
           </dl>
           <p className="proposal-body">{proposal.body}</p>
         </div>
 
-        <aside className="form-section" aria-label="提出者情報">
-          <h2>提出者情報</h2>
+        <aside className="form-section" aria-label="Submitter information">
+          <h2>Submitter Information</h2>
           <dl className="metadata-list">
             <div>
-              <dt>お名前</dt>
-              <dd>{proposal.submitterName ?? "未入力"}</dd>
+              <dt>Name</dt>
+              <dd>{proposal.submitterName ?? "Not provided"}</dd>
             </div>
             <div>
-              <dt>連絡先メール</dt>
-              <dd>{proposal.submitterContact ?? "未入力"}</dd>
+              <dt>Contact email</dt>
+              <dd>{proposal.submitterContact ?? "Not provided"}</dd>
             </div>
           </dl>
         </aside>
       </section>
 
-      <section className="form-section" aria-label="状態変更履歴">
-        <h2>状態変更履歴</h2>
+      <section className="form-section" aria-label="Status history">
+        <h2>Status History</h2>
         <StatusHistory histories={proposal.statusChanges} />
       </section>
     </main>

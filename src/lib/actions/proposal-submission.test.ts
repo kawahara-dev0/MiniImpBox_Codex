@@ -50,7 +50,7 @@ describe("proposal submission action", () => {
 
     expect(result).toEqual({
       success: true,
-      message: "提案を受け付けました。",
+      message: "Your proposal has been submitted.",
       errors: {},
     });
     expect(created).toEqual([

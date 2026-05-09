@@ -27,7 +27,7 @@ export function ProposalForm() {
       ) : null}
 
       <div className="field">
-        <label htmlFor="title">タイトル</label>
+        <label htmlFor="title">Title</label>
         <input
           id="title"
           name="title"
@@ -41,7 +41,7 @@ export function ProposalForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="body">提案内容</label>
+        <label htmlFor="body">Proposal details</label>
         <textarea
           id="body"
           name="body"
@@ -57,13 +57,13 @@ export function ProposalForm() {
 
       <div className="field-grid">
         <div className="field">
-          <label htmlFor="submitterName">お名前</label>
+          <label htmlFor="submitterName">Name</label>
           <input id="submitterName" name="submitterName" maxLength={100} />
           <FieldError message={state.errors.submitterName} />
         </div>
 
         <div className="field">
-          <label htmlFor="submitterContact">連絡先メール</label>
+          <label htmlFor="submitterContact">Contact email</label>
           <input
             id="submitterContact"
             name="submitterContact"
@@ -75,7 +75,7 @@ export function ProposalForm() {
       </div>
 
       <button type="submit" disabled={isPending}>
-        {isPending ? "送信中" : "提案を送信"}
+        {isPending ? "Submitting" : "Submit proposal"}
       </button>
     </form>
   );

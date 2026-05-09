@@ -44,8 +44,8 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 3. Open one proposal detail from the list
 4. Confirm optional submitter information appears only on administrator screens
 5. Confirm submitter contact and full proposal body are shown on the administrator detail screen only
-6. Confirm proposal body and submitter information are not written to app logs","Admin read screens are reachable only by an enabled admin and display approved administrator fields",Human,Phase-blocking,,Pending,Not Run,N/A,,Required before Step 6 status change implementation
+6. Confirm proposal body and submitter information are not written to app logs","Admin read screens are reachable only by an enabled admin and display approved administrator fields",Human,Phase-blocking,Confirmed by human after Step 5,Pass,2026-05-10,ff73730,Kawahara,User confirmed Step 5 phase-blocking gate
 14,Critical,No,Unauthenticated admin proposal routes are rejected manually,"1. Clear browser session or use a private window
 2. Open /admin/proposals
 3. Open /admin/proposals/{id}
-4. Confirm proposal data, submitter contact, and proposal body are not shown","Unauthenticated users cannot view administrator proposal data",Human,Phase-blocking,,Pending,Not Run,N/A,,Required before Step 6 status change implementation
+4. Confirm proposal data, submitter contact, and proposal body are not shown","Unauthenticated users cannot view administrator proposal data",Human,Phase-blocking,Confirmed by human after Step 5,Pass,2026-05-10,ff73730,Kawahara,User confirmed Step 5 phase-blocking gate

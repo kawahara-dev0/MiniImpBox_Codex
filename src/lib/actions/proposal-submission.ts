@@ -34,7 +34,7 @@ export async function submitProposalWithDal(
   if (!validation.ok) {
     return {
       success: false,
-      message: "入力内容を確認してください。",
+      message: "Please check your input.",
       errors: validation.errors,
     };
   }
@@ -43,7 +43,7 @@ export async function submitProposalWithDal(
 
   return {
     success: true,
-    message: "提案を受け付けました。",
+    message: "Your proposal has been submitted.",
     errors: {},
   };
 }

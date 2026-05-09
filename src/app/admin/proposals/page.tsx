@@ -10,8 +10,8 @@ function AdminAccessDenied() {
     <main className="page">
       <section className="form-section" aria-labelledby="admin-denied-title">
         <p className="eyebrow">Admin</p>
-        <h1 id="admin-denied-title">管理者権限が必要です</h1>
-        <p>管理者としてログインしてから再度アクセスしてください。</p>
+        <h1 id="admin-denied-title">Admin access required</h1>
+        <p>Please sign in as an administrator and try again.</p>
       </section>
     </main>
   );
@@ -28,22 +28,22 @@ export default async function AdminProposalListPage() {
     <main className="page admin-page">
       <section className="intro" aria-labelledby="admin-proposals-title">
         <p className="eyebrow">Admin</p>
-        <h1 id="admin-proposals-title">提案一覧</h1>
-        <p>最新 50 件の改善提案を管理者向けに表示します。</p>
+        <h1 id="admin-proposals-title">Proposal List</h1>
+        <p>Showing the latest 50 improvement proposals for administrators.</p>
       </section>
 
-      <section className="form-section" aria-label="提案一覧">
+      <section className="form-section" aria-label="Proposal list">
         {result.proposals.length === 0 ? (
-          <p>提案はまだありません。</p>
+          <p>No proposals have been submitted yet.</p>
         ) : (
           <div className="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>タイトル</th>
-                  <th>状態</th>
-                  <th>提出者</th>
-                  <th>作成日時</th>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Submitter</th>
+                  <th>Created</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,7 +55,7 @@ export default async function AdminProposalListPage() {
                       </Link>
                     </td>
                     <td>{proposal.status}</td>
-                    <td>{proposal.submitterName ?? "匿名"}</td>
+                    <td>{proposal.submitterName ?? "Anonymous"}</td>
                     <td>{formatDate(proposal.createdAt)}</td>
                   </tr>
                 ))}

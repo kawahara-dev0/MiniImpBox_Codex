@@ -7,10 +7,11 @@ export default function Home() {
         <p className="eyebrow">Mini Improvement Box</p>
         <h1 id="home-title">Mini Improvement Box</h1>
         <p>
-          改善提案を匿名で送信できます。名前と連絡先は任意です。
+          Submit improvement proposals anonymously. Name and contact email are
+          optional.
         </p>
       </section>
-      <section className="form-section" aria-label="改善提案フォーム">
+      <section className="form-section" aria-label="Improvement proposal form">
         <ProposalForm />
       </section>
     </main>
