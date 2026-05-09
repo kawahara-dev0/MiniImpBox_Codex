@@ -56,6 +56,16 @@ p {
   line-height: 1.7;
 }
 
+a {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+h2 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+}
+
 .form-section {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -142,12 +152,72 @@ button:disabled {
   font-size: 0.875rem;
 }
 
+.admin-page {
+  display: grid;
+  gap: 24px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--border);
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+  gap: 24px;
+}
+
+.metadata-list {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 20px;
+}
+
+.metadata-list div {
+  display: grid;
+  gap: 4px;
+}
+
+dt {
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+dd {
+  margin: 0;
+}
+
+.proposal-body {
+  white-space: pre-wrap;
+}
+
 @media (max-width: 720px) {
   .page {
     padding: 20px;
   }
 
-  .field-grid {
+  .field-grid,
+  .detail-grid {
     grid-template-columns: 1fr;
   }
 }
