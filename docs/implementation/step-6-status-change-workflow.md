@@ -43,8 +43,8 @@ Local checks:
 CI:
 
 - GitHub Actions CI is configured in `.github/workflows/ci.yml`.
-- CI has not run on the current working tree before commit/push.
-- CI result must be checked after push or PR creation.
+- GitHub Actions CI succeeded for commit `cda02b0e6b1082684281868de174bb447e1ae8c0`.
+- CI run URL: `https://github.com/kawahara-dev0/MiniImpBox_Codex/actions/runs/25614160081`.
 
 ## Test Case CSV and Coverage CSV Status
 
@@ -107,7 +107,6 @@ Release-blocking:
 - Manual successful admin status change and history verification.
 - Manual two-session optimistic-lock conflict verification.
 - Safe error and log review for sensitive data exposure.
-- CI result review after push or PR.
 - Human residual risk acceptance.
 - Human release decision.
 
@@ -150,7 +149,7 @@ Safe error/log review:
 ## Remaining Risks
 
 - Coverage percentages were not measured; targeted critical-path tests were used instead and this is recorded in `docs/tests/coverage_result.csv`.
-- GitHub Actions CI has not run on this exact commit yet.
+- GitHub Actions CI succeeded for commit `cda02b0e6b1082684281868de174bb447e1ae8c0`.
 - Manual UI verification and log review remain pending as release-blocking items.
 - Human review remains responsible for final acceptance, residual risk acceptance, and release decisions.
 

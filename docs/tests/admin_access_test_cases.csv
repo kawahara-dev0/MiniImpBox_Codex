@@ -67,12 +67,12 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 15,Critical,Yes,Unauthenticated users cannot change proposal status,"Automated integration test:
 1. Run npm test
 2. Verify admin proposal status service test for unauthenticated status changes
-3. Confirm the proposal DAL is not called","Unauthenticated users cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 status change authorization test
+3. Confirm the proposal DAL is not called","Unauthenticated users cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,cda02b0,OpenAI Codex / Vitest,Step 6 status change authorization test
 16,Critical,Yes,Non-admin or disabled users cannot change proposal status,"Automated integration test:
 1. Run npm test
 2. Verify admin proposal status service test for authorization failure
-3. Confirm the proposal DAL is not called","Unauthorized users cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 status change authorization test
+3. Confirm the proposal DAL is not called","Unauthorized users cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,cda02b0,OpenAI Codex / Vitest,Step 6 status change authorization test
 17,Critical,Yes,Disabled admin users cannot change proposal status,"Automated integration test:
 1. Run npm test
 2. Verify admin proposal status service test for disabled admin authorization failure
-3. Confirm the proposal DAL is not called","Disabled administrator accounts cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 6 disabled admin status change authorization test
+3. Confirm the proposal DAL is not called","Disabled administrator accounts cannot invoke administrator status changes",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-10,cda02b0,OpenAI Codex / Vitest,Step 6 disabled admin status change authorization test
