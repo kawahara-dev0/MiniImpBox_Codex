@@ -1,0 +1,34 @@
+{
+  "name": "mini-imp-box",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prisma:generate": "node scripts/prisma-generate.mjs",
+    "prisma:validate": "node scripts/prisma-validate.mjs",
+    "admin:account": "node scripts/admin-account.mjs"
+  },
+  "dependencies": {
+    "@better-auth/prisma-adapter": "^1.6.9",
+    "@prisma/client": "^6.19.0",
+    "better-auth": "^1.4.4",
+    "next": "^16.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.39.0",
+    "eslint-config-next": "^16.2.0",
+    "prisma": "^6.19.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  }
+}

@@ -1,0 +1,26 @@
+Environment,development,,,,,,,,,,,,,
+Tester Agent Used,No,,,,,,,,,,,,,
+Final Approval,Pending,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
+1,Critical,Yes,Better Auth user schema includes admin authorization fields,"1. Review prisma/schema.prisma
+2. Verify the Better Auth user table has role and enabled fields
+3. Verify no public self-registration UI is introduced","User records can support a single admin role check and account disabling; no self-registration UI exists",AI,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex,Step 3 must wire server-side auth behavior
+2,Critical,Yes,Admin list DTO excludes proposal body and submitter contact,"1. Run npm test
+2. Verify admin list DAL test
+3. Confirm returned list item has no body or submitterContact field","Admin list DTO includes only approved list fields and excludes proposal body and submitter contact",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 2 DTO boundary test
+3,Critical,Yes,Unauthenticated user is rejected from admin boundary,"1. Run npm test
+2. Verify admin auth boundary route test for unauthenticated access
+3. Confirm the response status is 401 and no administrator data is returned","Unauthenticated access does not return administrator data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 3 admin boundary route test
+4,Critical,Yes,Authenticated user without admin role is rejected where feasible,"1. Run npm test
+2. Verify admin authorization helper and boundary route tests
+3. Confirm non-admin or disabled users are rejected safely","A missing or non-admin role cannot access administrator data",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 3 auth helper and route tests
+5,Critical,Yes,Admin user can access proposal list and detail,"1. Login as an administrator
+2. Open proposal list
+3. Open proposal detail","Administrator can view approved administrator fields only",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Steps 3 and 5
+6,Critical,Yes,Enabled admin user is accepted by the server-side admin boundary,"1. Run npm test
+2. Verify admin authorization helper and boundary route tests
+3. Confirm the route returns only user id, email, and role for an enabled admin","Enabled admin users can pass the admin boundary without session secrets being returned",Auto,Phase-blocking,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 3 authorization foundation test
+7,Critical,Yes,Public self-registration is unavailable,"1. POST to /api/auth/sign-up/email with a non-admin email and password
+2. Verify the request fails
+3. Verify no user is created for that email","Normal public self-registration cannot create a user",Human,Phase-blocking,Confirmed by human after Step 3,Pass,2026-05-09,Working tree,Kawahara,User confirmed Step 3 unresolved findings

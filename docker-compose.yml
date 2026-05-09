@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "file:/data/sqlite/app.db"
+      BACKUP_DIR: "/data/backups"
+      BETTER_AUTH_URL: "http://localhost:3000"
+      BETTER_AUTH_SECRET: "replace-with-a-local-secret-that-is-not-committed"
+      NODE_ENV: "production"
+    volumes:
+      - ./data/sqlite:/data/sqlite
+      - ./data/backups:/data/backups
+    restart: unless-stopped

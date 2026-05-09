@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  role          String    @default("none")
+  enabled       Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions      session[]
+  accounts      account[]
+}
+
+model session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user                  user      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+}
+
+model Proposal {
+  id               String                @id @default(cuid())
+  title            String
+  body             String
+  status           String                @default("new")
+  submitterName    String?               @map("submitter_name")
+  submitterContact String?               @map("submitter_contact")
+  version          Int                   @default(1)
+  createdAt        DateTime              @default(now()) @map("created_at")
+  updatedAt        DateTime              @updatedAt @map("updated_at")
+
+  statusChanges    StatusChangeHistory[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model StatusChangeHistory {
+  id         String   @id @default(cuid())
+  proposalId String   @map("proposal_id")
+  oldStatus  String   @map("old_status")
+  newStatus  String   @map("new_status")
+  changedBy  String   @map("changed_by")
+  changedAt  DateTime @default(now()) @map("changed_at")
+  result     String
+
+  proposal   Proposal @relation(fields: [proposalId], references: [id], onDelete: Restrict)
+
+  @@index([proposalId])
+  @@index([changedAt])
+}
+
+model AdminLoginAuditLog {
+  id              String   @id @default(cuid())
+  eventType       String   @map("event_type")
+  adminIdentifier String   @map("admin_identifier")
+  timestamp       DateTime @default(now())
+  result          String
+  reasonCategory  String   @map("reason_category")
+  requestId       String   @map("request_id")
+
+  @@index([adminIdentifier])
+  @@index([timestamp])
+  @@index([requestId])
+}

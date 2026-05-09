@@ -1,0 +1,24 @@
+Environment,development,,,,,,,,,,,,,
+Tester Agent Used,No,,,,,,,,,,,,,
+Final Approval,Pending,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
+1,Critical,Yes,Approved status values are validated,"1. Run npm test
+2. Verify status validation tests for approved and invalid values","Only new, reviewing, planned, done, and declined are accepted",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 2 validation constants
+2,Critical,Yes,Status change increments proposal version and creates history,"1. Run npm test
+2. Verify DAL status change test using a fake Prisma executor
+3. Confirm proposal version increments and history record is created","Successful status change increments version and creates a success history record",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Admin authorization is not wired until later steps
+3,Critical,Yes,Stale status change does not create success history,"1. Run npm test
+2. Execute the DAL stale version test
+3. Confirm the stale change returns conflict and history count remains unchanged","Stale update returns conflict with latest proposal state and no success history is created",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Matches ADR-0004 core transaction rule
+4,Critical,Yes,Invalid status change boundary input is rejected,"1. Run npm test
+2. Execute the DAL invalid status change boundary input test
+3. Confirm version less than 1 and blank actor are rejected before persistence","Invalid version and blank actor are rejected before persistence",Auto,N/A,Same as Expected Result,Pass,2026-05-09,Working tree,OpenAI Codex / Vitest,Step 2 DAL boundary validation
+5,Critical,Yes,Unauthenticated status change is rejected,"1. Send a status change request without authentication
+2. Verify the request is rejected
+3. Verify proposal status and history remain unchanged","Unauthenticated users cannot change status and no data changes occur",Auto,Phase-blocking,,Pending,Not Run,N/A,,Planned for Step 6 after auth boundary exists
+6,Critical,Yes,Manual optimistic-lock conflict verification,"1. Login as an administrator in two browser sessions
+2. Open the same proposal detail in both sessions
+3. Change status in the first session
+4. Try to change status from the stale second session
+5. Verify the approved conflict message and latest state","The stale request is rejected with the approved safe conflict message and latest state is shown without automatic retry",Human,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 6 and Step 8
