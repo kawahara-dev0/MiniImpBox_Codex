@@ -1,5 +1,5 @@
 Environment,development,,,,,,,,,,,,,
-Tester Agent Used,No,,,,,,,,,,,,,
+Tester Agent Used,Yes,,,,,,,,,,,,,
 Final Approval,Pending,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification Gate,Actual Result,Status,Test Date,Version / Commit,Actual Executor,Notes
@@ -10,14 +10,17 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 2,Critical,Yes,Admin login audit write boundary excludes secrets,"AI review:
 1. Review src/lib/dal/audit-log.ts
 2. Verify write input has no password, session token, proposal body, or submitter fields","Audit write boundary does not accept secret or proposal content fields",AI,N/A,Same as Expected Result,Pass,2026-05-09,d494d72,OpenAI Codex,Actual Better Auth integration is planned for Step 7
-3,Critical,Yes,Successful admin login creates safe audit log,"Automated integration test:
-1. Login as an administrator in the test client
-2. Query or inspect the login audit record
-3. Verify no password, session token, proposal body, or submitter information is stored","A success audit record is created with safe fields only",Auto,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 7
-4,Critical,Yes,Failed admin login creates safe audit log,"Automated integration test:
-1. Attempt admin login with invalid credentials in the test client
-2. Query or inspect the login audit record
-3. Verify safe failure reason category and request ID are present","A failure audit record is created without secrets or sensitive proposal data",Auto,Release-blocking,,Pending,Not Run,N/A,,Planned for Step 7
+3,Critical,Yes,Successful admin login audit wrapper creates safe audit input,"Automated unit test:
+1. Run npm test
+2. Verify admin login audit handling test for a successful email sign-in
+3. Confirm the audit write contains event type, admin identifier, result, reason category, and request ID
+4. Confirm password and session token strings are not passed to the audit writer
+5. Confirm Better Auth Set-Cookie and cache-control headers are preserved when x-request-id is added","A success audit record is created with safe fields only and auth response headers are preserved",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 login audit wrapper test with header preservation
+4,Critical,Yes,Failed admin login audit wrapper creates safe audit input,"Automated unit test:
+1. Run npm test
+2. Verify admin login audit handling test for invalid credentials
+3. Confirm safe failure reason category and request ID are present
+4. Confirm password strings are not passed to the audit writer","A failure audit record is created without secrets or sensitive proposal data",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 login audit test
 5,Critical,No,Docker persistent database and backup paths are preserved,"CLI check:
 1. Run docker compose config
 2. Inspect the resolved compose configuration
@@ -32,3 +35,67 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 2. Confirm the user enabled flag becomes false
 3. Confirm active sessions for the user are deleted
 4. Attempt the admin boundary with that account","Disabled administrators cannot pass the admin boundary and existing sessions are revoked",Human,Phase-blocking,Confirmed by human after Step 3,Pass,2026-05-09,d494d72,Kawahara,User confirmed Step 3 unresolved findings
+8,Critical,Yes,Disabled admin login creates safe disabled-account audit and no auth session,"Automated unit test:
+1. Run npm test
+2. Verify admin login audit handling test for a disabled administrator
+3. Confirm Better Auth handler is not called
+4. Confirm disabled_account is recorded without password or session token data
+5. Confirm x-request-id is included in the early rejection response","Disabled administrator sign-in attempts are rejected before session creation and audited with a safe reason category",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 disabled admin login audit test
+9,Critical,Yes,Login audit request ID is generated or propagated,"Automated unit test:
+1. Run npm test
+2. Verify successful and failed login audit handling tests
+3. Confirm x-request-id is included in response headers and audit writes","Every audited login attempt has a request ID for correlation",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 request ID propagation test
+10,Critical,Yes,Login audit route wrapper does not audit unrelated auth routes,"Automated unit test:
+1. Run npm test
+2. Verify non-email-sign-in auth request passthrough test
+3. Confirm no audit write occurs for unrelated auth route requests","Only email sign-in attempts are recorded as administrator login audit events",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 route scope control test
+11,Critical,Yes,Non-admin login is rejected and audited safely,"Automated unit test:
+1. Run npm test
+2. Verify admin login audit handling test for an enabled non-admin user
+3. Confirm Better Auth handler is not called
+4. Confirm unknown safe reason category is recorded without password or session token data
+5. Confirm x-request-id is included in the early rejection response","Enabled non-admin users cannot create administrator login sessions and the attempt is audited safely",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 non-admin login audit test
+12,High,No,Operations documentation covers required trial procedures,"AI review:
+1. Review docs/operations/admin-account-lifecycle.md
+2. Review docs/operations/trial-operations.md
+3. Review docs/operations/trial-operation-record.md
+4. Confirm procedures cover admin lifecycle, backup path, access control, encryption, restore, trial end record, and post-retention deletion","Operations documentation covers the Step 7 required procedures without secrets or release approval claims",AI,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex,Step 7 operations documentation review
+13,Critical,No,Successful admin login audit manual verification,"Manual UI + Manual DB:
+1. Start the app against a local or Docker Compose trial-like database
+2. Sign in as an enabled administrator through the browser or a manual API client
+3. Inspect the AdminLoginAuditLog table for the same attempt
+4. Confirm admin_login_success, admin identifier, success result, none reason category, timestamp, and request ID are present
+5. Confirm password, password hash, session token, proposal body, and submitter information are not stored in the audit row","A real successful administrator login creates one safe audit record with request ID and without secrets or proposal content",Human,Release-blocking,,Pending,Not Run,N/A,,Step 7 release-blocking manual successful login audit verification
+14,Critical,No,Failed admin login audit manual verification,"Manual UI + Manual DB:
+1. Start the app against a local or Docker Compose trial-like database
+2. Attempt administrator sign-in with invalid credentials through the browser or a manual API client
+3. Inspect the AdminLoginAuditLog table for the same attempt
+4. Confirm admin_login_failure, admin identifier, failure result, invalid_credentials reason category, timestamp, and request ID are present
+5. Confirm password, password hash, session token, proposal body, and submitter information are not stored in the audit row","A real failed administrator login creates one safe audit record with request ID and without secrets or proposal content",Human,Release-blocking,,Pending,Not Run,N/A,,Step 7 release-blocking manual failed login audit verification
+15,Critical,No,Encrypted backup creation manual verification,"Manual DB:
+1. Set BACKUP_ENCRYPTION_KEY locally without committing it
+2. Follow docs/operations/trial-operations.md backup procedure
+3. Confirm an encrypted .db.enc backup is created under data/backups
+4. Confirm no unencrypted .db backup remains under data/backups
+5. Confirm the backup is outside public/
+6. Confirm host filesystem access is limited to authorized administrators and operators
+7. Confirm encrypted backup generations older than the latest 14 are cleaned up only after the latest encrypted backup exists","A daily backup can be created in the documented backup path, only encrypted backups remain, host access is restricted, and generation cleanup is controlled",Human,Release-blocking,,Pending,Not Run,N/A,,Step 7 release-blocking manual backup verification
+16,Critical,No,Encrypted restore dry-run manual verification,"Manual DB:
+1. Set BACKUP_ENCRYPTION_KEY locally without committing it
+2. Follow docs/operations/trial-operations.md restore dry-run procedure
+3. Restore to a separate dry-run database target
+4. Confirm the restore target exists outside public/
+5. Confirm the restored database is readable with a local SQLite/Prisma query
+6. Confirm the active database is not overwritten
+7. Remove the dry-run target after recording evidence","An encrypted backup can be restored to a readable separate dry-run target without overwriting the active database",Human,Release-blocking,,Pending,Not Run,N/A,,Step 7 release-blocking manual restore verification
+17,Critical,No,Trial end record manual verification,"Manual DB:
+1. Update docs/operations/trial-operation-record.md at trial end with decision maker, reason, and retention end date
+2. Confirm retention end date is trial end date plus 90 days
+3. Record backup generations present at trial end
+4. Confirm the record does not include secrets or proposal contents","Trial end is recorded with decision maker, reason, retention end date, and safe operational metadata only",Human,Release-blocking,,Pending,Not Run,N/A,,Step 7 release-blocking trial end record verification
+18,Critical,No,Post-retention deletion manual verification,"Manual DB:
+1. At retention end, confirm human approval for deletion
+2. Stop the application if it is running against the target database
+3. Delete target database and backup files from documented paths
+4. Confirm no target database or backup files remain in documented paths
+5. Record deleted files and verification result without sensitive contents","Post-retention deletion is performed only after human approval and recorded through the approved operational procedure",Human,Release-blocking,,Pending,Not Run,N/A,,Step 7 and Step 8 release-blocking deletion verification

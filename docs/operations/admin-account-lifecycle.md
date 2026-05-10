@@ -6,6 +6,10 @@ This note covers the Step 3 operational path for administrator account creation,
 
 It does not approve production operation, release readiness, residual risk acceptance, or final completion.
 
+For backup, restore, trial end, and post-retention deletion procedures, use `docs/operations/trial-operations.md`.
+
+Record trial administrator account operations in `docs/operations/trial-operation-record.md` when they affect trial access.
+
 ## Account Creation
 
 Create the initial administrator with the administrative script:
