@@ -50,14 +50,18 @@ Local checks:
 CI:
 
 - GitHub Actions CI is configured in `.github/workflows/ci.yml`.
-- CI has not run for this uncommitted Step 7 working tree yet.
+- CI has not run for commit `56f6a48` yet.
 - CI result must be checked after push and recorded in this file.
+
+Commit:
+
+- Step 7 implementation commit: `56f6a48`.
 
 ## Test Case CSV and Coverage CSV Status
 
 - `docs/tests/audit_and_operations_test_cases.csv`: Updated for Step 7 audit wrapper, audit DAL boundary, request ID, disabled/non-admin rejection, manual login audit verification, backup, restore, trial end record, and post-retention deletion verification.
 - `docs/tests/coverage_result.csv`: Updated for Step 7 audit wrapper, audit DAL boundary, auth route, and operations documentation coverage status.
-- Step 7 rows currently use `Working tree` where checks were run before commit. After commit, those rows must be updated to the Step 7 commit hash.
+- Step 7 rows were updated to commit `56f6a48` after the Step 7 implementation commit.
 
 ## Implementation Reviewer Evidence
 
@@ -182,7 +186,7 @@ Trial end and deletion:
 - Automated tests mock Better Auth dependencies for most wrapper behavior; real browser/API login audit and cookie/session behavior must be manually verified.
 - Audit DAL test verifies the Prisma write boundary with a fake Prisma client, not a real SQLite row.
 - Backup/restore procedures are documented but not manually executed in a trial-like environment.
-- CI has not run for this uncommitted working tree yet.
+- CI has not run for commit `56f6a48` yet.
 - Human review remains responsible for final acceptance, residual risk acceptance, and release decisions.
 
 ## ADR Notes

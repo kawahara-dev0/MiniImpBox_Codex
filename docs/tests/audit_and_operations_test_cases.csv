@@ -15,12 +15,12 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 2. Verify admin login audit handling test for a successful email sign-in
 3. Confirm the audit write contains event type, admin identifier, result, reason category, and request ID
 4. Confirm password and session token strings are not passed to the audit writer
-5. Confirm Better Auth Set-Cookie and cache-control headers are preserved when x-request-id is added","A success audit record is created with safe fields only and auth response headers are preserved",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 login audit wrapper test with header preservation
+5. Confirm Better Auth Set-Cookie and cache-control headers are preserved when x-request-id is added","A success audit record is created with safe fields only and auth response headers are preserved",Auto,N/A,Same as Expected Result,Pass,2026-05-10,56f6a48,OpenAI Codex / Vitest,Step 7 login audit wrapper test with header preservation
 4,Critical,Yes,Failed admin login audit wrapper creates safe audit input,"Automated unit test:
 1. Run npm test
 2. Verify admin login audit handling test for invalid credentials
 3. Confirm safe failure reason category and request ID are present
-4. Confirm password strings are not passed to the audit writer","A failure audit record is created without secrets or sensitive proposal data",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 login audit test
+4. Confirm password strings are not passed to the audit writer","A failure audit record is created without secrets or sensitive proposal data",Auto,N/A,Same as Expected Result,Pass,2026-05-10,56f6a48,OpenAI Codex / Vitest,Step 7 login audit test
 5,Critical,No,Docker persistent database and backup paths are preserved,"CLI check:
 1. Run docker compose config
 2. Inspect the resolved compose configuration
@@ -40,26 +40,26 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 2. Verify admin login audit handling test for a disabled administrator
 3. Confirm Better Auth handler is not called
 4. Confirm disabled_account is recorded without password or session token data
-5. Confirm x-request-id is included in the early rejection response","Disabled administrator sign-in attempts are rejected before session creation and audited with a safe reason category",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 disabled admin login audit test
+5. Confirm x-request-id is included in the early rejection response","Disabled administrator sign-in attempts are rejected before session creation and audited with a safe reason category",Auto,N/A,Same as Expected Result,Pass,2026-05-10,56f6a48,OpenAI Codex / Vitest,Step 7 disabled admin login audit test
 9,Critical,Yes,Login audit request ID is generated or propagated,"Automated unit test:
 1. Run npm test
 2. Verify successful and failed login audit handling tests
-3. Confirm x-request-id is included in response headers and audit writes","Every audited login attempt has a request ID for correlation",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 request ID propagation test
+3. Confirm x-request-id is included in response headers and audit writes","Every audited login attempt has a request ID for correlation",Auto,N/A,Same as Expected Result,Pass,2026-05-10,56f6a48,OpenAI Codex / Vitest,Step 7 request ID propagation test
 10,Critical,Yes,Login audit route wrapper does not audit unrelated auth routes,"Automated unit test:
 1. Run npm test
 2. Verify non-email-sign-in auth request passthrough test
-3. Confirm no audit write occurs for unrelated auth route requests","Only email sign-in attempts are recorded as administrator login audit events",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 route scope control test
+3. Confirm no audit write occurs for unrelated auth route requests","Only email sign-in attempts are recorded as administrator login audit events",Auto,N/A,Same as Expected Result,Pass,2026-05-10,56f6a48,OpenAI Codex / Vitest,Step 7 route scope control test
 11,Critical,Yes,Non-admin login is rejected and audited safely,"Automated unit test:
 1. Run npm test
 2. Verify admin login audit handling test for an enabled non-admin user
 3. Confirm Better Auth handler is not called
 4. Confirm unknown safe reason category is recorded without password or session token data
-5. Confirm x-request-id is included in the early rejection response","Enabled non-admin users cannot create administrator login sessions and the attempt is audited safely",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 7 non-admin login audit test
+5. Confirm x-request-id is included in the early rejection response","Enabled non-admin users cannot create administrator login sessions and the attempt is audited safely",Auto,N/A,Same as Expected Result,Pass,2026-05-10,56f6a48,OpenAI Codex / Vitest,Step 7 non-admin login audit test
 12,High,No,Operations documentation covers required trial procedures,"AI review:
 1. Review docs/operations/admin-account-lifecycle.md
 2. Review docs/operations/trial-operations.md
 3. Review docs/operations/trial-operation-record.md
-4. Confirm procedures cover admin lifecycle, backup path, access control, encryption, restore, trial end record, and post-retention deletion","Operations documentation covers the Step 7 required procedures without secrets or release approval claims",AI,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex,Step 7 operations documentation review
+4. Confirm procedures cover admin lifecycle, backup path, access control, encryption, restore, trial end record, and post-retention deletion","Operations documentation covers the Step 7 required procedures without secrets or release approval claims",AI,N/A,Same as Expected Result,Pass,2026-05-10,56f6a48,OpenAI Codex,Step 7 operations documentation review
 13,Critical,No,Successful admin login audit manual verification,"Manual UI + Manual DB:
 1. Start the app against a local or Docker Compose trial-like database
 2. Sign in as an enabled administrator through the browser or a manual API client
