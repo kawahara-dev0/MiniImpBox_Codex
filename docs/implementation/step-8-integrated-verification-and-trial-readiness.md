@@ -51,7 +51,7 @@ CI:
 
 Commit:
 
-- Step 8 commit: pending at the time this record was created.
+- Step 8 implementation evidence commit: `214af9a`.
 
 ## Test Case CSV and Coverage CSV Status
 
@@ -60,7 +60,7 @@ Commit:
 - `docs/tests/status_change_test_cases.csv`: Finalized with Step 8 status-change regression evidence; successful status change/history and stale conflict browser verification remain release-blocking.
 - `docs/tests/audit_and_operations_test_cases.csv`: Finalized with Step 8 audit and operations evidence; real login audit DB inspection, backup, restore, trial end, and deletion verification remain release-blocking.
 - `docs/tests/coverage_result.csv`: Updated with Step 8 integrated regression status. Line and branch percentages were not measured; critical paths are covered by targeted automated tests plus release-blocking manual verification.
-- Step 8 rows use `Working tree` until the Step 8 commit hash is available.
+- Step 8 rows were updated to commit `214af9a` after the Step 8 implementation evidence commit.
 
 ## Implementation Reviewer Evidence
 

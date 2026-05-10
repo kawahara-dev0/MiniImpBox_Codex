@@ -50,4 +50,4 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 1. Run npm test
 2. Verify proposal validation tests
 3. Verify proposal submission action tests for anonymous submission, optional submitter fields, validation failures, and HTML-like body handling
-4. Confirm no manual row is marked as human-verified by AI","The implemented proposal submission behavior has passing automated regression coverage, and release-blocking manual UI verification remains pending for human execution",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 8 integrated verification evidence; manual rows 8-11 remain release-blocking
+4. Confirm no manual row is marked as human-verified by AI","The implemented proposal submission behavior has passing automated regression coverage, and release-blocking manual UI verification remains pending for human execution",Auto,N/A,Same as Expected Result,Pass,2026-05-10,214af9a,OpenAI Codex / Vitest,Step 8 integrated verification evidence; manual rows 8-11 remain release-blocking
