@@ -50,12 +50,13 @@ Local checks:
 CI:
 
 - GitHub Actions CI is configured in `.github/workflows/ci.yml`.
-- CI has not run for commit `56f6a48` yet.
-- CI result must be checked after push and recorded in this file.
+- GitHub Actions CI succeeded for commit `29613c1df5cb078fe86e61c6f85262bba4ea202b`.
+- CI run URL: `https://github.com/kawahara-dev0/MiniImpBox_Codex/actions/runs/25619481095`.
 
 Commit:
 
 - Step 7 implementation commit: `56f6a48`.
+- Step 7 post-commit evidence commit: `29613c1`.
 
 ## Test Case CSV and Coverage CSV Status
 
@@ -186,7 +187,7 @@ Trial end and deletion:
 - Automated tests mock Better Auth dependencies for most wrapper behavior; real browser/API login audit and cookie/session behavior must be manually verified.
 - Audit DAL test verifies the Prisma write boundary with a fake Prisma client, not a real SQLite row.
 - Backup/restore procedures are documented but not manually executed in a trial-like environment.
-- CI has not run for commit `56f6a48` yet.
+- GitHub Actions CI succeeded for commit `29613c1df5cb078fe86e61c6f85262bba4ea202b`.
 - Human review remains responsible for final acceptance, residual risk acceptance, and release decisions.
 
 ## ADR Notes
