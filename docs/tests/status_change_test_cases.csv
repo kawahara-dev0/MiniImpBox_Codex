@@ -62,3 +62,9 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 4. Verify the success notice is shown
 5. Verify the displayed status and version are updated
 6. Verify Status History contains one success row with the previous status, new status, changed administrator, and changed time","An enabled administrator can change status and the same screen shows the updated status, incremented version, and success history entry",Human,Release-blocking,,Pending,Not Run,N/A,,Step 6 release-blocking manual verification
+14,Critical,Yes,Step 8 status change automated regression verification,"Automated integration test:
+1. Run npm test
+2. Verify proposal status validation tests
+3. Verify proposal DAL status change tests for success, stale conflict, missing proposal, and invalid boundary input
+4. Verify admin proposal status service tests for authorization, invalid status, invalid version, success, not-found, and conflict
+5. Confirm manual rows are still pending for human execution","Status change, status history, safe conflict handling, and authorization boundaries have passing automated regression coverage; release-blocking manual status change and stale conflict verification remains pending",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 8 integrated verification evidence; manual rows 6 and 13 remain release-blocking

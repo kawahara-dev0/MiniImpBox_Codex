@@ -99,3 +99,13 @@ No,Priority,TDD Required,Test Item,Method,Expected Result,Executor,Verification 
 3. Delete target database and backup files from documented paths
 4. Confirm no target database or backup files remain in documented paths
 5. Record deleted files and verification result without sensitive contents","Post-retention deletion is performed only after human approval and recorded through the approved operational procedure",Human,Release-blocking,,Pending,Not Run,N/A,,Step 7 and Step 8 release-blocking deletion verification
+19,Critical,Yes,Step 8 audit automated regression verification,"Automated unit test:
+1. Run npm test
+2. Verify admin login audit wrapper and audit DAL boundary tests
+3. Confirm release-blocking manual rows remain pending for real login audit, backup, restore, trial end, and post-retention deletion","Audit regression tests pass for the login audit wrapper and audit DAL boundary; release-blocking operational manual verification remains pending",Auto,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex / Vitest,Step 8 automated audit regression evidence; manual rows 13-18 remain release-blocking
+20,High,No,Step 8 operations documentation review,"AI review:
+1. Review docs/operations/admin-account-lifecycle.md
+2. Review docs/operations/trial-operations.md
+3. Review docs/operations/trial-operation-record.md
+4. Confirm procedures cover administrator lifecycle, backup encryption and cleanup, restore dry-run, trial end record, and post-retention deletion
+5. Confirm the review does not mark manual operational execution as completed","Operations documentation remains aligned with Step 8 verification needs and release-blocking manual operational execution remains pending",AI,N/A,Same as Expected Result,Pass,2026-05-10,Working tree,OpenAI Codex,Step 8 AI documentation review evidence separated from automated test execution
